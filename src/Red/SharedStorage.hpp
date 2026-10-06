@@ -5,6 +5,11 @@ namespace Red
 template<CName N, typename T, typename... Args>
 inline T* AcquireSharedInstance(Args&&... args)
 {
+#ifdef __APPLE__
+    // macOS port: don't store anything in the game's RTTI maps (their layout isn't verified); one instance per module.
+    static const auto s_macInstance = std::make_unique<T>(std::forward<Args>(args)...);
+    return s_macInstance.get();
+#else
     constexpr CName SharedName = FNV1a64("!", N);
 
     auto rtti = Red::CRTTISystem::Get();
@@ -24,5 +29,6 @@ inline T* AcquireSharedInstance(Args&&... args)
     storage->Insert(SharedName, s_instance.get());
 
     return s_instance.get();
+#endif
 }
 }

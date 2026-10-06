@@ -8,6 +8,14 @@ namespace
 Core::UniquePtr<App::Application> g_app;
 }
 
+#ifdef __APPLE__
+namespace App
+{
+void StartMacSelfTest();
+void StartMacCompat();
+}
+#endif
+
 // RED4ext
 
 RED4EXT_C_EXPORT bool RED4EXT_CALL Main(RED4ext::v1::PluginHandle aHandle, RED4ext::v1::EMainReason aReason,
@@ -17,8 +25,18 @@ RED4EXT_C_EXPORT bool RED4EXT_CALL Main(RED4ext::v1::PluginHandle aHandle, RED4e
     {
     case RED4ext::v1::EMainReason::Load:
     {
+#ifdef __APPLE__
+        // macOS port: RED4ext calls Main(Load) twice for the same plugin. A second Application would destroy the first
+        // one (and the hooking driver that already attached hooks point to), so ignore repeated loads.
+        if (g_app)
+            break;
+#endif
         g_app = Core::MakeUnique<App::Application>(aHandle, aSdk);
         g_app->Bootstrap();
+#ifdef __APPLE__
+        App::StartMacCompat();
+        App::StartMacSelfTest();
+#endif
         break;
     }
     case RED4ext::v1::EMainReason::Unload:

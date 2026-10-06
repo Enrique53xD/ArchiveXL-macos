@@ -68,8 +68,8 @@ void Support::SpdlogProvider::OnInitialize()
     logger->set_pattern("[%Y-%m-%d %H:%M:%S.%e] [%t] [%l] %v");
     logger->flush_on(spdlog::level::trace);
 
-    spdlog::set_default_logger(logger);
-    spdlog::set_level(spdlog::level::trace);
+    m_logger = logger;
+    logger->set_level(spdlog::level::trace);
 
     if (m_recentSymlink && logPath != m_baseLogPath)
     {
@@ -83,25 +83,30 @@ void Support::SpdlogProvider::OnInitialize()
 
 void Support::SpdlogProvider::LogInfo(const std::string_view& aMessage)
 {
-    spdlog::default_logger_raw()->info(aMessage);
+    if (m_logger)
+        m_logger->info(aMessage);
 }
 
 void Support::SpdlogProvider::LogWarning(const std::string_view& aMessage)
 {
-    spdlog::default_logger_raw()->warn(aMessage);
+    if (m_logger)
+        m_logger->warn(aMessage);
 }
 
 void Support::SpdlogProvider::LogError(const std::string_view& aMessage)
 {
-    spdlog::default_logger_raw()->error(aMessage);
+    if (m_logger)
+        m_logger->error(aMessage);
 }
 
 void Support::SpdlogProvider::LogDebug(const std::string_view& aMessage)
 {
-    spdlog::default_logger_raw()->debug(aMessage);
+    if (m_logger)
+        m_logger->debug(aMessage);
 }
 
 void Support::SpdlogProvider::LogFlush()
 {
-    spdlog::default_logger_raw()->flush();
+    if (m_logger)
+        m_logger->flush();
 }

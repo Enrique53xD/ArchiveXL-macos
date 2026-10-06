@@ -164,6 +164,7 @@ constexpr uint32_t ResourceDepot_InitializeArchives = 2885423437;
 constexpr uint32_t ResourceDepot_LoadArchives = 2517385486;
 constexpr uint32_t ResourceDepot_RequestResource = 2450934495;
 constexpr uint32_t ResourceDepot_CheckResource = 43194193;
+constexpr uint32_t ResourceDepot_EmplaceGroup = 3735928559; // macOS-only helper, see RED4ext-macos/tools/findings.json
 
 constexpr uint32_t ResourceLoader_RequestResource = 2365013187; // res::ResourceLoader::IssueLoadingRequest
 constexpr uint32_t ResourceLoader_OnUpdate = 1303056161;
@@ -189,4 +190,18 @@ constexpr uint32_t TPPRepresentationComponent_RegisterAffectedItem = 3037343626;
 constexpr uint32_t TPPRepresentationComponent_IsAffectedSlot = 678894266;
 
 constexpr uint32_t TweakDB_Load = 3602585178; // game::data::TweakDB::LoadOptimized
+constexpr uint32_t GameDefaultAllocator = 1296154625; // macOS: returns the game's default allocator object (first word = vtable)
+constexpr uint32_t CClass_ctor_base = 1296154626; // macOS: CClass base constructor (this, name, size, flags)
+constexpr uint32_t MacCompat_ValidatePropertyType = 1296154627; // macOS: script<->native property type check
+constexpr uint32_t MacCompat_ValidateTypeA = 1296154640; // macOS: per-type script validator 0x1042ada0c
+constexpr uint32_t MacCompat_ValidateTypeB = 1296154641; // macOS: per-type script validator 0x1042adaf8
+constexpr uint32_t MacCompat_ValidateTypeC = 1296154642; // macOS: per-type script validator 0x1042adce4
+constexpr uint32_t MacCompat_ValidateTypeD = 1296154643; // macOS: per-type script validator 0x1042ade84
+constexpr uint32_t MacCompat_ValidateTypeE = 1296154644; // macOS: per-type script validator 0x1042ae748
+constexpr uint32_t MacCompat_TraceF0 = 1296154656; // macOS debug trace 0x102bdb8f8
+constexpr uint32_t MacCompat_TraceF1 = 1296154657; // macOS debug trace 0x102bdbadc
+constexpr uint32_t MacCompat_TraceF2 = 1296154658; // macOS debug trace 0x102bd7ce0
+constexpr uint32_t MacCompat_TraceF3 = 1296154659; // macOS debug trace 0x1042eae50
+constexpr uint32_t MacCompat_TraceF4 = 1296154660; // macOS debug trace 0x1042ad7f8
+constexpr uint32_t MacCompat_TraceF5 = 1296154661; // macOS debug trace 0x102be0328
 }

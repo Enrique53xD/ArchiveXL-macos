@@ -60,6 +60,7 @@ public: \
     template<> \
     struct Red::TypeInfoBuilder<Red::ClassDefinition<_class>{}> \
     { \
+        static inline const void* s_anchor = &Red::ClassDefinition<_class>::s_registrar; \
         using Type = _class; \
         using Descriptor = Red::ClassDescriptor<_class>; \
         static constexpr auto Name() \
@@ -78,6 +79,7 @@ public: \
     template<> \
     struct Red::TypeInfoBuilder<Red::ClassExpansion<_class, X_RTTI_LOCATION>{}> \
     { \
+        static inline const void* s_anchor = &Red::ClassExpansion<_class, X_RTTI_LOCATION>::s_registrar; \
         using Type = _class; \
         using Descriptor = Red::ClassDescriptor<_class>; \
         static void Describe(Descriptor* type) \
@@ -90,6 +92,7 @@ public: \
     template<> \
     struct Red::TypeInfoBuilder<Red::ClassExpansion<_class, Red::Scope::For<_expansion>()>{}> \
     { \
+        static inline const void* s_anchor = &Red::ClassExpansion<_class, Red::Scope::For<_expansion>()>::s_registrar; \
         using Type = _expansion; \
         using Descriptor = Red::ClassDescriptor<_class>; \
         static void Describe(Descriptor* type) \
@@ -167,6 +170,7 @@ public: \
     template<> \
     struct Red::TypeInfoBuilder<Red::EnumDefinition<_enum>{}> \
     { \
+        static inline const void* s_anchor = &Red::EnumDefinition<_enum>::s_registrar; \
         using Type = _enum; \
         using Descriptor = Red::EnumDescriptor<_enum>; \
         static constexpr auto Name() \
@@ -181,6 +185,7 @@ public: \
     template<> \
     struct Red::TypeInfoBuilder<Red::FlagsDefinition<_enum>{}>  \
     { \
+        static inline const void* s_anchor = &Red::FlagsDefinition<_enum>::s_registrar; \
         using Type = _enum; \
         using Descriptor = Red::EnumDescriptor<_enum>; \
         static constexpr auto Name() \
@@ -195,6 +200,7 @@ public: \
     template<> \
     struct Red::TypeInfoBuilder<Red::EnumExpansion<_enum, X_RTTI_LOCATION>{}> \
     { \
+        static inline const void* s_anchor = &Red::EnumExpansion<_enum, X_RTTI_LOCATION>::s_registrar; \
         using Type = _enum; \
         using Descriptor = Red::EnumDescriptor<_enum>; \
         static void Describe(Descriptor* type) \
@@ -209,6 +215,7 @@ public: \
     template<> \
     struct Red::TypeInfoBuilder<Red::EnumExpansion<_enum, X_RTTI_LOCATION>{}> \
     { \
+        static inline const void* s_anchor = &Red::EnumExpansion<_enum, X_RTTI_LOCATION>::s_registrar; \
         using Type = _enum; \
         using Descriptor = Red::EnumDescriptor<_enum>; \
         static void Describe(Descriptor* type) \
@@ -224,6 +231,7 @@ public: \
     template<> \
     struct Red::TypeInfoBuilder<Red::GlobalDefinition<X_RTTI_LOCATION>{}> \
     { \
+        static inline const void* s_anchor = &Red::GlobalDefinition<X_RTTI_LOCATION>::s_registrar; \
         using Descriptor = Red::GlobalDescriptor; \
         static void Describe(Descriptor* rtti) \
         { \
@@ -234,6 +242,7 @@ public: \
     template<> \
     struct Red::TypeInfoBuilder<Red::GlobalDefinition<X_RTTI_LOCATION>{}> \
     { \
+        static inline const void* s_anchor = &Red::GlobalDefinition<X_RTTI_LOCATION>::s_registrar; \
         using Descriptor = Red::GlobalDescriptor; \
         static void Describe(Descriptor* rtti) \
         { \
@@ -255,6 +264,7 @@ public: \
     template<> \
     struct Red::TypeInfoBuilder<Red::GlobalDefinition<X_RTTI_LOCATION>{}> \
     { \
+        static inline const void* s_anchor = &Red::GlobalDefinition<X_RTTI_LOCATION>::s_registrar; \
         using Descriptor = Red::GlobalDescriptor; \
         static void Register(Descriptor* rtti) \
         { \
@@ -266,6 +276,7 @@ public: \
     template<> \
     struct Red::TypeInfoBuilder<Red::GlobalDefinition<X_RTTI_LOCATION>{}> \
     { \
+        static inline const void* s_anchor = &Red::GlobalDefinition<X_RTTI_LOCATION>::s_registrar; \
         using Descriptor = Red::GlobalDescriptor; \
         static void Describe(Descriptor* rtti) \
         { \

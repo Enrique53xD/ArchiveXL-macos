@@ -19,6 +19,15 @@ public:
         QueuePendingDescribeCallbacks();
     }
 
+    // macOS port: the game may run its register/post-register phases before the plugin is loaded, so callbacks
+    // queued through CRTTISystem would never fire. Run the pending ones directly.
+    static inline void RunPendingNow()
+    {
+        fprintf(stderr, "[RedLib macOS] pending register=%zu describe=%zu\n", s_registerCallbacks.size(), s_describeCallbacks.size());
+        ProcessPendingRegisterCallbacks();
+        ProcessPendingDescriberCallbacks();
+    }
+
     static inline void AddRegisterCallback(Callback aRegister)
     {
         if (aRegister)

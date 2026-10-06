@@ -3,6 +3,11 @@
 #include "Core/Foundation/Feature.hpp"
 #include "Core/Logging/LoggingDriver.hpp"
 
+namespace spdlog
+{
+class logger;
+}
+
 namespace Support
 {
 class SpdlogProvider
@@ -55,6 +60,9 @@ public:
 protected:
     void OnInitialize() override;
 
+    // Each plugin owns its logger: spdlog statics are weak symbols that get shared between plugin dylibs on macOS, so the
+    // process-wide "default logger" would end up in whichever plugin set it last.
+    std::shared_ptr<spdlog::logger> m_logger;
     std::filesystem::path m_baseLogPath;
     bool m_appendTimestamp{ false };
     bool m_recentSymlink{ false };

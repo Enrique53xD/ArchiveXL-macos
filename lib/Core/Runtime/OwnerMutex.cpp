@@ -19,6 +19,10 @@ Core::OwnerMutex::~OwnerMutex()
 
 bool Core::OwnerMutex::Obtain()
 {
+#ifdef __APPLE__
+    m_mutex = reinterpret_cast<decltype(m_mutex)>(1); // single-instance guard is only needed for ASI mode
+    return true;
+#else
     const auto mutex = !m_wname.empty()
         ? CreateMutexW(NULL, TRUE, m_wname.data())
         : CreateMutexA(NULL, TRUE, m_aname.data());
@@ -35,6 +39,7 @@ bool Core::OwnerMutex::Obtain()
     m_mutex = mutex;
 
     return true;
+#endif
 }
 
 bool Core::OwnerMutex::Release()
@@ -42,7 +47,9 @@ bool Core::OwnerMutex::Release()
     if (!m_mutex)
         return false;
 
+#ifndef __APPLE__
     ReleaseMutex(m_mutex);
+#endif
     m_mutex = nullptr;
 
     return true;

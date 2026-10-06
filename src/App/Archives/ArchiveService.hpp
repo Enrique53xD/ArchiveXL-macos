@@ -23,7 +23,9 @@ protected:
     void OnShutdown() override;
 
     void OnInitializeArchives(Red::ResourceDepot* aDepot);
+#ifndef __APPLE__
     static Red::ArchiveGroup& ResolveArchiveGroup(Red::ResourceDepot* aDepot, const Red::CString& aBasePath);
+#endif
 
     Core::Vector<std::filesystem::path> m_archives;
     Core::Vector<std::filesystem::path> m_dirs;

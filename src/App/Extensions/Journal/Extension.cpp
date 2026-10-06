@@ -141,11 +141,11 @@ void App::JournalExtension::OnMappinDataLoaded(void* aMappinSystem, Red::worldRu
     if (!cookedMappinResource->cookedData.IsEmpty() && cookedMappinResource->cookedData.Size() == cookedMappinResource->cookedData.Capacity())
     {
         {
-            const auto reserve = std::max(s_mappins.size() << 1, cookedMappinResource->cookedData.Size() / 2ull);
+            const auto reserve = std::max(s_mappins.size() << 1, cookedMappinResource->cookedData.Size() / size_t{2});
             cookedMappinResource->cookedData.Reserve(cookedMappinResource->cookedData.Size() + reserve);
         }
         {
-            const auto reserve = std::max(s_mappins.size() << 1, cookedMappinResource->cookedMultiData.Size() / 2ull);
+            const auto reserve = std::max(s_mappins.size() << 1, cookedMappinResource->cookedMultiData.Size() / size_t{2});
             cookedMappinResource->cookedMultiData.Reserve(cookedMappinResource->cookedMultiData.Size() + reserve);
         }
     }
@@ -153,7 +153,7 @@ void App::JournalExtension::OnMappinDataLoaded(void* aMappinSystem, Red::worldRu
     auto cookedPoiResource = Raw::MappinSystem::CookedPoiResource::Ptr(aMappinSystem)->instance;
     if (!cookedPoiResource->cookedData.IsEmpty() && cookedPoiResource->cookedData.Size() == cookedPoiResource->cookedData.Capacity())
     {
-        const auto reserve = std::max(s_mappins.size() << 1, cookedPoiResource->cookedData.Size() / 2ull);
+        const auto reserve = std::max(s_mappins.size() << 1, cookedPoiResource->cookedData.Size() / size_t{2});
         cookedPoiResource->cookedData.Reserve(cookedPoiResource->cookedData.Size() + reserve);
     }
 }

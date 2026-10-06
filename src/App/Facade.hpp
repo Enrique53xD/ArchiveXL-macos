@@ -19,6 +19,11 @@ public:
     static void Reload();
     static bool Require(Red::CString& aVersion);
     static Red::CString GetVersion();
+    static bool Log(Red::CString& aText);
+    static bool SetPendingController(const Red::Handle<Red::IScriptable>& aController);
+    static bool QueueController(const Red::Handle<Red::IScriptable>& aController, Red::CString& aClassName);
+    static bool DumpObject(const Red::Handle<Red::IScriptable>& aObject, Red::CString& aTag);
+    static bool ProbeLogicOffset(const Red::Handle<Red::IScriptable>& aWidget, const Red::Handle<Red::IScriptable>& aController);
 
     RTTI_IMPL_TYPEINFO(Facade);
 };
@@ -36,4 +41,9 @@ RTTI_DEFINE_CLASS(App::Facade, App::Project::Name, {
     RTTI_METHOD(Reload);
     RTTI_METHOD(Require);
     RTTI_METHOD(GetVersion, "Version");
+    RTTI_METHOD(Log);
+    RTTI_METHOD(SetPendingController);
+    RTTI_METHOD(QueueController);
+    RTTI_METHOD(ProbeLogicOffset);
+    RTTI_METHOD(DumpObject);
 })

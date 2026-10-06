@@ -68,3 +68,47 @@ Red::CString App::Facade::GetVersion()
 {
     return Project::Version.to_string().c_str();
 }
+
+#ifdef __APPLE__
+namespace App { void MacLogLine(const char* aPrefix, const char* aText); void MacSetPendingController(uint64_t aPtr, uint64_t aCtrl); void MacQueueController(uint64_t aPtr, uint64_t aCtrl, const char* aClass); void MacProbeLogicOffset(uint64_t aWidget, uint64_t aCtrl); void MacDumpObject(uint64_t aPtr, const char* aTag); }
+#endif
+
+bool App::Facade::Log(Red::CString& aText)
+{
+#ifdef __APPLE__
+    MacLogLine("S", aText.c_str());
+#endif
+    return true;
+}
+
+bool App::Facade::SetPendingController(const Red::Handle<Red::IScriptable>& aController)
+{
+#ifdef __APPLE__
+    MacSetPendingController(reinterpret_cast<uint64_t>(aController.instance), reinterpret_cast<uint64_t>(aController.refCount));
+#endif
+    return true;
+}
+
+bool App::Facade::QueueController(const Red::Handle<Red::IScriptable>& aController, Red::CString& aClassName)
+{
+#ifdef __APPLE__
+    MacQueueController(reinterpret_cast<uint64_t>(aController.instance), reinterpret_cast<uint64_t>(aController.refCount), aClassName.c_str());
+#endif
+    return true;
+}
+
+bool App::Facade::ProbeLogicOffset(const Red::Handle<Red::IScriptable>& aWidget, const Red::Handle<Red::IScriptable>& aController)
+{
+#ifdef __APPLE__
+    MacProbeLogicOffset(reinterpret_cast<uint64_t>(aWidget.instance), reinterpret_cast<uint64_t>(aController.instance));
+#endif
+    return true;
+}
+
+bool App::Facade::DumpObject(const Red::Handle<Red::IScriptable>& aObject, Red::CString& aTag)
+{
+#ifdef __APPLE__
+    MacDumpObject(reinterpret_cast<uint64_t>(aObject.instance), aTag.c_str());
+#endif
+    return true;
+}

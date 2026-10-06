@@ -51,6 +51,18 @@ const Core::SemvVer& Core::HostImage::GetProductVer() const
 
 bool Core::HostImage::TryResolveVersion(const std::wstring& filePath)
 {
+#ifdef __APPLE__
+    // macOS: no PE version resource. The port targets a single game build (2.3.1 -> 2.31).
+    (void)filePath;
+    m_fileVer.major = 2;
+    m_fileVer.minor = 31;
+    m_fileVer.build = 0;
+    m_fileVer.revision = 0;
+    m_productVer.major = 2;
+    m_productVer.minor = 31;
+    m_productVer.patch = 0;
+    return true;
+#else
     auto size = GetFileVersionInfoSizeW(filePath.c_str(), nullptr);
     if (!size)
         return false;
@@ -82,4 +94,5 @@ bool Core::HostImage::TryResolveVersion(const std::wstring& filePath)
     m_productVer.patch = (fileInfo->dwProductVersionLS >> 16) & 0xFFFF;
 
     return true;
+#endif
 }

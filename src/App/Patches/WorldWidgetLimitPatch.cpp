@@ -1,3 +1,4 @@
+#ifndef __APPLE__
 #include "WorldWidgetLimitPatch.hpp"
 
 void App::WorldWidgetLimitPatch::OnBootstrap()
@@ -28,3 +29,5 @@ void App::WorldWidgetLimitPatch::OnBootstrap()
         LogWarning("WorldWidgetComponent limit patch is not applied, expected pattern was not found.");
     }
 }
+
+#endif

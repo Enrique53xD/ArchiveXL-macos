@@ -1,3 +1,14 @@
+# ArchiveXL-macos (macOS port)
+
+Apple Silicon port of the upstream project, built on [RED4ext-macos](https://github.com/Enrique53xD/RED4ext-macos). See [cp2077-macos-tools](https://github.com/Enrique53xD/cp2077-macos-tools) for the full install guide.
+
+**Build:** clone next to `RED4ext-macos` and `ArchiveXL-macos`, then `mkdir build && cd build && cmake .. && make -j8`, `codesign -f -s - ArchiveXL.dylib`.
+**Install:** copy the dylib to `<game>/red4ext/plugins/ArchiveXL/` with an empty `rtti_experiment` file beside it.
+**Active on macOS:** archive mounting (`Bundle/` and `archive/pc/mod`) and `.xl` discovery. Other extensions are disabled until their game addresses are located. See `STATUS.md`.
+Original README below.
+
+---
+
 # ArchiveXL
 
 ArchiveXL is a modding tool that allows you to load custom resources without touching original game files,

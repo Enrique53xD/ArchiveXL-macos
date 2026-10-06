@@ -30,6 +30,7 @@ void App::ExtensionService::OnBootstrap()
     m_loader = Core::MakeUnique<ExtensionLoader>(m_bundleDir, L".xl");
 
     m_loader->Add<ResourceMetaExtension>();
+#ifndef __APPLE__
     m_loader->Add<ResourceLinkExtension>();
     m_loader->Add<ResourcePatchExtension>();
     m_loader->Add<MeshExtension>();
@@ -46,6 +47,8 @@ void App::ExtensionService::OnBootstrap()
     m_loader->Add<WorldStreamingExtension>();
     m_loader->Add<InkSpawnerExtension>();
 
+#endif // macOS port: the other extensions need game functions that are not located yet.
+
     HookOnceAfter<Raw::GameApplication::InitResourceDepot>([&]() {
         m_loader->Configure();
         m_loader->Load();
@@ -55,9 +58,11 @@ void App::ExtensionService::OnBootstrap()
         m_loader->OnDepotReady();
     });
 
-    HookAfter<Raw::LoadTweakDB>([&]() {
+#ifndef __APPLE__
+    HookAfter<Raw::LoadTweakDB>([&]() { // macOS: TweakDB_Load is still unverified
         m_loader->OnTweakDBReady();
     });
+#endif
 }
 
 void App::ExtensionService::OnShutdown()
@@ -70,6 +75,9 @@ void App::ExtensionService::Configure()
 {
     std::unique_lock _(m_reloadMutex);
 
+#ifdef __APPLE__
+    return; // hot reload needs ResourceLoader::OnUpdate, not located yet
+#endif
     if (!IsHooked<Raw::ResourceLoader::OnUpdate>())
     {
         HookAfter<Raw::ResourceLoader::OnUpdate>([&]() {

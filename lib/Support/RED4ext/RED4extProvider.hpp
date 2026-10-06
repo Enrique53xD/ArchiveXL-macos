@@ -48,7 +48,11 @@ public:
 
     auto RegisterScripts(const std::filesystem::path& aPath) noexcept
     {
+        #ifdef __APPLE__
+        m_sdk->scripts->Add(m_plugin, aPath.wstring().c_str());
+#else
         m_sdk->scripts->Add(m_plugin, aPath.c_str());
+#endif
         return Defer(this);
     }
 

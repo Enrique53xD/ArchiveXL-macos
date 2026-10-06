@@ -1,4 +1,5 @@
 #include "ExtensionLoader.hpp"
+#include "Red/MacDepot.hpp"
 #include "App/Utils/Str.hpp"
 
 App::ExtensionLoader::ExtensionLoader(std::filesystem::path aBundleDir, std::wstring aConfigExt)
@@ -23,6 +24,23 @@ void App::ExtensionLoader::Configure()
         Core::Vector<std::filesystem::path> configDirs;
         Core::Vector<std::filesystem::path> configFiles;
 
+#ifdef __APPLE__
+        {
+            // Mac depot layout: groups are 0x38-byte elements, see Red/MacDepot.hpp.
+            if (auto* groups = Red::Mac::Groups(); groups && groups->entries && groups->size <= 64)
+            {
+                auto* all = static_cast<Red::Mac::Group*>(groups->entries);
+                for (uint32_t i = groups->size; i > 0; --i)
+                {
+                    const auto& group = all[i - 1];
+                    if (group.scope == Red::Mac::ModScope && group.BasePath().Length() > 0)
+                    {
+                        configDirs.emplace_back(Str::Widen(group.BasePath().c_str()));
+                    }
+                }
+            }
+        }
+#else
         {
             auto depot = Red::ResourceDepot::Get();
 
@@ -44,6 +62,8 @@ void App::ExtensionLoader::Configure()
                 }
             }
         }
+
+#endif
 
         if (!m_bundleDir.empty())
         {
