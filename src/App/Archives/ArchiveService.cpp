@@ -61,7 +61,9 @@ void App::ArchiveService::OnInitializeArchives(Red::ResourceDepot* aDepot)
             };
             FILE* f = fopen("/tmp/axl_depot_check.log", "w");
             if (!f) return;
-            for (const char* path : {"base\\gameplay\\gui\\fullscreen\\vendor\\vendor.inkwidget", "engine\\textures\\editor\\grey.xbm"})
+            for (const char* path : {"base\\gameplay\\gui\\virtual_atelier_stores.inkwidget", "base\\gameplay\\gui\\virtual_atelier.inkatlas",
+                                     "base\\gameplay\\gui\\virtual_atelier_cart.xbm", "base\\localization\\en-us\\onscreens\\virtual-atelier.json",
+                                     "base\\gameplay\\gui\\fullscreen\\vendor\\vendor.inkwidget", "engine\\textures\\editor\\grey.xbm"})
             {
                 Red::ResourcePath rp(fnv(path));
                 const bool found = Raw::ResourceDepot::CheckResource(depotPtr, rp);

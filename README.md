@@ -4,7 +4,7 @@ Apple Silicon port of the upstream project, built on [RED4ext-macos](https://git
 
 **Build:** clone next to `RED4ext-macos` and `ArchiveXL-macos`, then `mkdir build && cd build && cmake .. && make -j8`, `codesign -f -s - ArchiveXL.dylib`.
 **Install:** copy the dylib to `<game>/red4ext/plugins/ArchiveXL/` with an empty `rtti_experiment` file beside it.
-**Active on macOS:** archive mounting (`Bundle/` and `archive/pc/mod`) and `.xl` discovery. Other extensions are disabled until their game addresses are located. See `STATUS.md`.
+**Active on macOS:** archive mounting (`Bundle/` and `archive/pc/mod`), `.xl` discovery, and dynamic appearance names for items (template and mesh appearance lookups). Other extensions are disabled until their game addresses are located. See `STATUS.md`.
 Original README below.
 
 ---

@@ -34,13 +34,18 @@ RED4EXT_C_EXPORT bool RED4EXT_CALL Main(RED4ext::v1::PluginHandle aHandle, RED4e
         g_app = Core::MakeUnique<App::Application>(aHandle, aSdk);
         g_app->Bootstrap();
 #ifdef __APPLE__
-        App::StartMacCompat();
+        App::StartMacCompat(); // lenient script validators + ink spawn hooks; must be in place before scripts are validated
         App::StartMacSelfTest();
 #endif
         break;
     }
     case RED4ext::v1::EMainReason::Unload:
     {
+#ifdef __APPLE__
+        // macOS port: Unload also arrives twice (see Load); the second one finds no application.
+        if (!g_app)
+            break;
+#endif
         g_app->Shutdown();
         g_app = nullptr;
         break;
